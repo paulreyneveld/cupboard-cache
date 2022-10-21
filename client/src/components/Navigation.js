@@ -25,8 +25,9 @@ const Navigation = () => {
         <MDBNavbarBrand href='#'>Cupboard Cache</MDBNavbarBrand>
           <MDBNavbarNav>
             <MDBNavbarLink><Link to="/">Home</Link></MDBNavbarLink>
-            <MDBNavbarLink><Link to="/login">Login</Link></MDBNavbarLink>
             <MDBNavbarLink><Link to="/signup">Sign Up</Link></MDBNavbarLink>
+            <MDBNavbarLink><Link to="/login">Login</Link></MDBNavbarLink>
+            <MDBNavbarLink><Link to="/logout">Logout</Link></MDBNavbarLink>
           </MDBNavbarNav>
       </MDBContainer>
     </MDBNavbar>

@@ -9,7 +9,7 @@ import {
 }
 from 'mdb-react-ui-kit'
 import { UserContext } from '../context/UserContext'
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () =>  {
 
@@ -20,6 +20,8 @@ const Signup = () =>  {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [userContext, setUserContext] = useContext(UserContext)
+  
+  const navigate = useNavigate()
 
   const formSubmitHandler = e => {
     e.preventDefault()
@@ -54,12 +56,12 @@ const Signup = () =>  {
             return { ...oldValues, token: data.token }
           })
         }
-        return <Navigate replate to='/login' />
       })
       .catch(error => {
         setIsSubmitting(false)
         setError(genericErrorMessage)
       })
+      navigate('/login')
   }
 
   return (

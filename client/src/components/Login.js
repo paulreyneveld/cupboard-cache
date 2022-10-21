@@ -8,6 +8,7 @@ import {
   }
 from 'mdb-react-ui-kit'
 import { UserContext } from '../context/UserContext'
+import axios from 'axios'
 
 const Login = () => {
 
@@ -17,40 +18,55 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [userContext, setUserContext] = useContext(UserContext)
 
-    console.log(userContext)
-    const formSubmitHandler = e => {
+    // const formSubmitHandler = e => {
+    //   e.preventDefault()
+    //   setIsSubmitting(true)
+    //   setError("")
+  
+    //   const genericErrorMessage = "Something went wrong! Please try again later."
+  
+    //   fetch(process.env.REACT_APP_API_ENDPOINT + "users/login", {
+    //     method: "POST",
+    //     credentials: "include",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ username, password }),
+    //   })
+    //     .then(async response => {
+    //       setIsSubmitting(false)
+    //       if (!response.ok) {
+    //         if (response.status === 400) {
+    //           setError("Please fill all the fields correctly!")
+    //         } else if (response.status === 401) {
+    //           setError("Invalid email and password combination.")
+    //         } else {
+    //           setError(genericErrorMessage)
+    //         }
+    //       } else {
+    //         const data = await response.json()
+    //         setUserContext(oldValues => {
+    //           return { ...oldValues, token: data.token }
+    //         })
+    //       }
+    //     })
+    //     .catch(error => {
+    //       setIsSubmitting(false)
+    //       setError(genericErrorMessage)
+    //     })
+    // }
+
+    const formSubmitHandler = (e) => {
       e.preventDefault()
-      setIsSubmitting(true)
-      setError("")
-  
-      const genericErrorMessage = "Something went wrong! Please try again later."
-  
-      fetch(process.env.REACT_APP_API_ENDPOINT + "users/login", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      })
-        .then(async response => {
-          setIsSubmitting(false)
-          if (!response.ok) {
-            if (response.status === 400) {
-              setError("Please fill all the fields correctly!")
-            } else if (response.status === 401) {
-              setError("Invalid email and password combination.")
-            } else {
-              setError(genericErrorMessage)
-            }
-          } else {
-            const data = await response.json()
-            setUserContext(oldValues => {
-              return { ...oldValues, token: data.token }
-            })
-          }
+      const userData = {
+        username, 
+        password
+      }
+      axios
+        .post("http://localhost:4000/api/auth/register_login", userData)
+        .then(res => {
+          console.log(res)
         })
-        .catch(error => {
-          setIsSubmitting(false)
-          setError(genericErrorMessage)
+        .catch(err => {
+          console.log(err)
         })
     }
 
