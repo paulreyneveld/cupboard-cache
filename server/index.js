@@ -29,12 +29,12 @@ app.post("/login", async (req, res, next) => {
   try {
     existingUser = await User.findOne({ username });
   } catch {
-    const error = new Error("Error! Something went wrong.");
+    const error = new Error("Error! Something went wrong.")
     return next(error);
   }
   if (!existingUser || existingUser.password != password) {
-    const error = Error("Wrong details please check at once");
-    return next(error);
+    const error = Error("Wrong details please check at once")
+    return next(error)
   }
   let token;
   try {
@@ -42,12 +42,12 @@ app.post("/login", async (req, res, next) => {
     token = jwt.sign(
       { userId: existingUser.id, username: existingUser.username },
       "secretkeyappearshere",
-      { expiresIn: "1h" }
+      { expiresIn: "1m" }
     );
   } catch (err) {
-    console.log(err);
+    console.log(err)
     const error = new Error("Error! Something went wrong.");
-    return next(error);
+    return next(error)
   }
  
   res
@@ -73,10 +73,10 @@ app.post("/signup", async (req, res, next) => {
   });
  
   try {
-    await newUser.save();
+    await newUser.save()
   } catch {
     const error = new Error("Error! Something went wrong.");
-    return next(error);
+    return next(error)
   }
   let token;
   try {
@@ -84,7 +84,7 @@ app.post("/signup", async (req, res, next) => {
       { userId: newUser.id, username: username },
       "secretkeyappearshere",
       { expiresIn: "1h" }
-    );
+    )
   } catch (err) {
     const error = new Error("Error! Something went wrong.");
     return next(error);
@@ -96,16 +96,20 @@ app.post("/signup", async (req, res, next) => {
       data: { userId: newUser.id,
           username: username, token: token },
     });
-});
+})
+
+app.get('/groceries', (req, res) => {
+  res.send('test')
+})
  
 //Connecting to the database
 mongoose
   .connect(process.env.MONGO_DB_CONNECTION_STRING)
   .then(() => {
-    app.listen("3000", () => {
-      console.log("Server is listening on port 3000");
+    app.listen(process.env.PORT, () => { // Port config: Update this at some point. 
+      console.log(`Server is listening on ${process.env.PORT}`);
     });
   })
   .catch((err) => {
     console.log("Error Occurred");
-  });
+  })
