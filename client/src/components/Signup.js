@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState} from 'react'
 import {
   MDBBtn,
   MDBCard,
@@ -8,67 +8,29 @@ import {
   MDBInput
 }
 from 'mdb-react-ui-kit'
-import { UserContext } from '../context/UserContext'
+import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 const Signup = () =>  {
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState("")
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [userContext, setUserContext] = useContext(UserContext)
   
   const navigate = useNavigate()
 
   const formSubmitHandler = e => {
     e.preventDefault()
-    setIsSubmitting(true)
-    setError("")
 
-    const genericErrorMessage = "Something went wrong! Please try again later."
-
-    fetch(process.env.REACT_APP_API_ENDPOINT + "users/signup", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstName, lastName, username, password }),
-    })
-      .then(async response => {
-        setIsSubmitting(false)
-        if (!response.ok) {
-          if (response.status === 400) {
-            setError("Please fill all the fields correctly!")
-          } else if (response.status === 401) {
-            setError("Invalid email and password combination.")
-          } else if (response.status === 500) {
-            console.log(response)
-            const data = await response.json()
-            if (data.message) setError(data.message || genericErrorMessage)
-          } else {
-            setError(genericErrorMessage)
-          }
-        } else {
-          const data = await response.json()
-          setUserContext(oldValues => {
-            return { ...oldValues, token: data.token }
-          })
-        }
-      })
-      .catch(error => {
-        setIsSubmitting(false)
-        setError(genericErrorMessage)
-      })
-      navigate('/login')
+    navigate('/login')
   }
 
   return (
       <MDBCard className='mx-5 mb-5 p-5 shadow-5' >
         <MDBCardBody className='p-5 text-center'>
           <h2 className="fw-bold mb-5">Sign Up Now</h2>
-          <form onSubmit={formSubmitHandler}>
+          <form>
           <MDBRow>
             <MDBCol col='6'>
               <MDBInput 
@@ -114,8 +76,6 @@ const Signup = () =>  {
             className='w-100 mb-4' 
             size='md'
             intent="primary"
-            disabled={isSubmitting}
-            text={`${isSubmitting ? "Registering" : "Register"}`}
             fill
             type="submit"
             >sign up</MDBBtn>
