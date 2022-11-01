@@ -11,6 +11,7 @@ import Navigation from './components/Navigation'
 import { MDBContainer } from 'mdb-react-ui-kit'
 import { AuthProvider } from './context/AuthContext'
 import Home from './components/Home'
+import GroceryStore from './components/GroceryStore'
 import RequireAuth from './components/RequireAuth'
 
 
@@ -34,6 +35,7 @@ const App = () =>  {
               <Route path="/welcome" element={< Welcome />}></Route>
             </Route>
             <Route exact path='/logout' element={<Logout />}></Route>
+            <Route exact path='/grocerystore' element={<GroceryStore />}></Route>
         </Routes>
       </MDBContainer>
     </Router>

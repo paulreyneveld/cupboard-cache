@@ -42,7 +42,9 @@ const Navigation = () => {
               <><MDBNavbarLink><Link to="/signup">Sign Up</Link></MDBNavbarLink> 
               <MDBNavbarLink><Link to="/login">Login</Link></MDBNavbarLink></> 
               : 
-              <MDBNavbarLink style={logoutStyle} onClick={logout}>Logout</MDBNavbarLink> }
+              <><MDBNavbarLink><Link to="/welcome">Welcome</Link></MDBNavbarLink>
+              <MDBNavbarLink style={logoutStyle} onClick={logout}>Logout</MDBNavbarLink> 
+              </>}
 
           </MDBNavbarNav>
       </MDBContainer>

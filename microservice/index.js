@@ -1,19 +1,20 @@
 require('dotenv').config()
-const express = require("express");
-const mongoose = require("mongoose");
+const express = require("express")
+const mongoose = require("mongoose")
 const Item = require("./Groceries")
-
-// const User = require("./Users");
-const app = express();
+const cors = require('cors')
+const app = express()
  
 app.use(express.json());
+app.use(cors())
 
-app.get('/', async (req, res) => {
+app.get('/groceries', async (req, res) => {
     let items
     try {
         items = await Item.find()
         console.log(items)
-        res.send('working')
+        // res.send('working')
+        res.json(items);
     }
     catch (err) {
         console.log(err)
@@ -21,16 +22,45 @@ app.get('/', async (req, res) => {
     
 })
 
-app.post('/add_eggs', async (req, res) => {
-    const eggs = Item({
+app.post('/add_items', async (req, res) => {
+    data = [
+      {
         name: "Eggs", cost: "2.49"
-    })
+      },
+      {
+        name: "Potatoes", cost: "1.99"
+      },
+      {
+        name: "Bread", cost: "2.49"
+      },
+      {
+        name: "Bacon", cost: "7.49"
+      },
+      {
+        name: "Milk", cost: "3.49"
+      },
+      {
+        name: "Cheddar", cost: "4.49"
+      },
+      {
+        name: "Bananas", cost: "0.99"
+      },
+      {
+        name: "Apples", cost: "1.49"
+      }
+    ]
+
     try {
-        await eggs.save()
+        // await eggs.save()
+        data.forEach(item => {
+          console.log(item)
+          const new_value = Item(item)
+          new_value.save()
+        })
     } catch (err) {
         console.log(err)
     }
-    res.status(201)
+    res.json(data)
 })
 
 
