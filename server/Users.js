@@ -19,7 +19,15 @@ const UserSchema = new mongoose.Schema(
         date: {
             type: Date,
             default: Date.now
-        }
+        },
+        item: [{
+            name: String,
+            cost: String
+        }],
+        purchased: [{
+            name: String,
+            cost: String
+        }]
     }, 
     { strict: false }
 )

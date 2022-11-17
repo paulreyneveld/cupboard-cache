@@ -1,38 +1,38 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { MDBCard, MDBCardBody, MDBBtn } from 'mdb-react-ui-kit'
-import { useAuth } from '../context/AuthContext'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
-const GroceryStore = ({ user }) => {
+const Cupboard = ({ user }) => {
 
-    const [groceries, setGroceries] = useState(null)
+    const [cupboard, setCupboard] = useState(null)
 
-    useEffect( () => {
-        axios.get('http://localhost:5001/groceries')
+    useEffect(() => {
+        const userId = user.userId
+        console.log(userId)
+        const req = { userId }
+        axios.post('http://localhost:4999/cupboard', req)
         .then((data) => {
-            console.log(user.userId)
             console.log(data.data)
-            setGroceries(data.data)
+            setCupboard(data.data)
         })
         .catch(err => console.log(err))
     }, [])
 
-    console.log(user)
-
-    const addToShoppingList = (item) => {
-
-        // On add, I just need to pass this item to my backend server to add it to the user's information. 
-        const new_item = {
+    const deleteItem = (item) => {
+        console.log('id', item._id)
+        const req = {
             userId: user.userId,
-            name: item.name,
-            cost: item.cost
+            itemId: item._id
         }
-        axios.post('http://localhost:4999/add_item', new_item)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err))
+        axios.post('http://localhost:4999/delete_item_cupboard', req)
+        .then(res => {
+            setCupboard(res.data)
+            console.log(res)
+        })
+        .catch(err => console.log(err))    
     }
 
-    if (!groceries) {
+    if (!cupboard) {
         return (
             <MDBCard className='mx-5 mb-5 p-5 shadow-5' >
             <MDBCardBody className='p-5 text-center'>
@@ -43,22 +43,19 @@ const GroceryStore = ({ user }) => {
     }
 
     return (
-        <>
         <MDBCard className='mx-5 mb-5 p-5 shadow-5' >
         <MDBCardBody className='p-5 text-center'>
-            <p>Here you'll find what we have for sale! To make a shopping list, simply press add and those items will magically 
-                appear in the Shopping List view
-            </p>
+            <p>Here is what you have at home!</p>
             <table className="table">
                 <thead>
                  <tr>
                     <th>Item</th>
                     <th>Cost</th>
-                    <th>Add Item</th>
+                    <th>Remove from Cupboard</th>
                     </tr>
                 </thead>
                 <tbody>
-                {groceries.map(item => (
+                {cupboard.map(item => (
                     <tr key={item._id}>
                         <td >{item.name}</td>
                         <td>{item.cost}</td>
@@ -68,9 +65,9 @@ const GroceryStore = ({ user }) => {
                             size='md'
                             intent="primary"
                             type="submit"
-                            onClick={() => addToShoppingList(item)}
+                            onClick={() => deleteItem(item)}
                         >
-                        Add to Grocery List
+                        Delete Item
                         </MDBBtn>
                         </td>
                     </tr>
@@ -78,11 +75,9 @@ const GroceryStore = ({ user }) => {
 
                 </tbody>
             </table>
-
         </MDBCardBody>
         </MDBCard>
-        </>
     )
 }
 
-export default GroceryStore
+export default Cupboard

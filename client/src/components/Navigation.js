@@ -15,7 +15,6 @@ const Navigation = () => {
 
     const navigate = useNavigate()
     const [user, setUser] = useAuth()
-    console.log(user)
 
     const logout = () => {
       localStorage.removeItem("user")
@@ -25,7 +24,8 @@ const Navigation = () => {
     }
 
     const logoutStyle = {
-      color: "#1266f1"
+      cursor: "pointer"
+      
     }
 
     return (
@@ -36,13 +36,19 @@ const Navigation = () => {
       <MDBContainer fluid>
         <MDBNavbarBrand href='#'>Cupboard Cache</MDBNavbarBrand>
           <MDBNavbarNav>
-            <MDBNavbarLink><Link to="/">Home</Link></MDBNavbarLink>
-            
+
             {!user ? 
-              <><MDBNavbarLink><Link to="/signup">Sign Up</Link></MDBNavbarLink> 
-              <MDBNavbarLink><Link to="/login">Login</Link></MDBNavbarLink></> 
+              <>
+              <MDBNavbarLink tag={Link} to="/">Home</MDBNavbarLink>
+              <MDBNavbarLink tag={Link} to="/signup">Sign Up</MDBNavbarLink> 
+              <MDBNavbarLink tag={Link} to="/login">Login</MDBNavbarLink>
+              </> 
               : 
-              <><MDBNavbarLink><Link to="/welcome">Welcome</Link></MDBNavbarLink>
+              <>
+              <MDBNavbarLink tag={Link} to="/welcome">Welcome</MDBNavbarLink>
+              <MDBNavbarLink tag={Link} to="/grocerystore">On Sale</MDBNavbarLink>
+              <MDBNavbarLink tag={Link} to="/shoppinglist">Shopping List</MDBNavbarLink>
+              <MDBNavbarLink tag={Link} to="/cupboard">At Home</MDBNavbarLink>
               <MDBNavbarLink style={logoutStyle} onClick={logout}>Logout</MDBNavbarLink> 
               </>}
 
@@ -51,7 +57,7 @@ const Navigation = () => {
     </MDBNavbar>
     </MDBCardBody>
     </MDBCard>
-      </>
+    </>
     )
 }
 

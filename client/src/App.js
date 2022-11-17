@@ -13,13 +13,14 @@ import { AuthProvider } from './context/AuthContext'
 import Home from './components/Home'
 import GroceryStore from './components/GroceryStore'
 import RequireAuth from './components/RequireAuth'
+import ShoppingList from './components/ShoppingList'
+import Cupboard from './components/Cupboard'
 
 
 const App = () =>  {
 
   let user = localStorage.getItem("user")
   user = JSON.parse(user)
-  console.log(user)
 
   return (
     <AuthProvider userData={user}>
@@ -30,12 +31,15 @@ const App = () =>  {
         <Routes>
             <Route exact path='/' element={<Home /> }></Route>
             <Route exact path='/login' element ={<Login />}></Route>
-            <Route exact path='/signup' element={< Signup />}></Route>
+            <Route exact path='/signup' element={<Signup />}></Route>
             <Route element={<RequireAuth />}>
-              <Route path="/welcome" element={< Welcome />}></Route>
+              <Route path="/welcome" element={<Welcome />}></Route>
+              <Route exact path='/grocerystore' element={<GroceryStore user={user} />}></Route>
+              <Route exact path='/shoppinglist' element={<ShoppingList user={user} />}></Route>
+              <Route exact path='/cupboard' element={<Cupboard user={user} />}></Route>
             </Route>
             <Route exact path='/logout' element={<Logout />}></Route>
-            <Route exact path='/grocerystore' element={<GroceryStore />}></Route>
+            
         </Routes>
       </MDBContainer>
     </Router>

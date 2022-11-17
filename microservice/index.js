@@ -13,7 +13,6 @@ app.get('/groceries', async (req, res) => {
     try {
         items = await Item.find()
         console.log(items)
-        // res.send('working')
         res.json(items);
     }
     catch (err) {
@@ -51,7 +50,6 @@ app.post('/add_items', async (req, res) => {
     ]
 
     try {
-        // await eggs.save()
         data.forEach(item => {
           console.log(item)
           const new_value = Item(item)
